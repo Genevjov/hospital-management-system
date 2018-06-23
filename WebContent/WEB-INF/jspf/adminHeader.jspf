@@ -1,0 +1,61 @@
+<style>
+.adminHeader {
+	background-color: #068279;
+	position: absolute;
+	margin-top: -17px;
+	margin-left: -10px;
+	width: 1368px;
+	height: 100px;
+}
+
+.adminHeader li {
+	display: inline;
+}
+
+.adminHeader a {
+	margin-top: -16px;
+	color: #fff;
+	padding: 35px 10px;
+	text-decoration: none;
+	font-weight: bold;
+	display: inline-block;
+	width: 100px;
+	height: 30px;
+	color: #fff;
+	text-align: center;
+}
+
+.adminHeader a:hover {
+	background-color: gray;
+}
+
+.headerStaffInfor {
+	position: absolute;
+	margin-left: 1000px;
+	margin-top: -95px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.headerStaffInfor li a {
+	position: absolute;
+	margin-top: -36px;
+}
+</style>
+<div class="adminHeader">
+	<ul>
+		<li><a href="controller?command=doctors">Doctors</a></li>
+		<li><a href="controller?command=nurses">Nurses</a></li>
+		<li><a href="controller?command=patients">Patients</a></li>
+		<li><a href="controller?command=addStaff">Add staff</a></li>
+		<li><a href="controller?command=addPatient">Add patient</a></li>
+		<li><a href="controller?command=clinicStatus">Clinic status</a></li>
+	</ul>
+	<div class="headerStaffInfor">
+		<ul>
+			<li>(${role })</li>
+			<li>${staff.secondName}${staff.firstName}</li>
+			<li><a href="controller?command=logout">Logout</a></li>
+		</ul>
+	</div>
+</div>

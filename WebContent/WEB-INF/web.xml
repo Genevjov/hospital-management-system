@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	id="WebApp_ID" version="3.1">
+	<display-name>Clinic</display-name>
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<servlet-name>MainController</servlet-name>
+		<servlet-class>ua.nure.dlubovskyi.Clinic.web.controller.MainControllerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MainController</servlet-name>
+		<url-pattern>/controller</url-pattern>
+	</servlet-mapping>
+	<listener>
+		<display-name>Listener</display-name>
+		<listener-class>ua.nure.dlubovskyi.Clinic.web.listeners.ContextListener</listener-class>
+	</listener>
+	<resource-env-ref>
+		<resource-env-ref-name>jdbc/summary_task</resource-env-ref-name>
+		<resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
+	</resource-env-ref>
+	<context-param>
+		<param-name>log4j-properties</param-name>
+		<param-value>/WEB-INF/log4j.properties</param-value>
+	</context-param>
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>ua.nure.dlubovskyi.Clinic.web.filters.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<servlet-name>FrontController</servlet-name>
+	</filter-mapping>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/WEB-INF/patientInfo</taglib-uri>
+			<taglib-location>/WEB-INF/patientInfo.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+</web-app>
