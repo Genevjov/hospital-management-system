@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -53,22 +52,27 @@ html {
 	text-align: center;
 	color: white;
 }
+
+
 </style>
 <body>
-
-	<c:if test="${not empty errorMessage }">
+	<%@include file="/WEB-INF/jspf/changeLanguage.jspf"%>
+	<c:if test="${error }">
 		<div class="errorMessage">
-			<span><c:out value="${errorMessage }"></c:out></span>
+			<span><fmt:message key="login.error" /></span>
 		</div>
 	</c:if>
 	<div class="loginForm">
 		<form action="controller" method="post">
 			<ul>
-				<li>Plese login</li>
+				<li><fmt:message key="login.page.title" />
 				<li><input type="hidden" name="command" value="login"></li>
-				<li>Login: <input type="text" name="login"></li>
-				<li>Password <input type="password" name="password"></li>
-				<li><input type="submit" value="Login"></li>
+				<li><label><fmt:message key="login.login" />:</label> <input
+					type="text" name="login"></li>
+				<li><label><fmt:message key="login.password" />:</label> <input
+					type="password" name="password"></li>
+				<li><input type="submit"
+					value='<fmt:message key = "login.button"/>'></li>
 			</ul>
 		</form>
 	</div>

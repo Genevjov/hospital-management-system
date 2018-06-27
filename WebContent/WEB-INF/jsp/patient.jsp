@@ -32,16 +32,24 @@ html {
 }
 </style>
 <body>
-	<%-- 	<c:if test="${role eq 'Admin' }"> --%>
-	<%@include file="/WEB-INF/jspf/adminHeader.jspf"%>
-	<%-- 	</c:if> --%>
+	<%@include file="/WEB-INF/jspf/changeLanguage.jspf"%>
+
+	<c:if test="${role eq 'Admin' }">
+		<%@include file="/WEB-INF/jspf/adminHeader.jspf"%>
+	</c:if>
+	<c:if test="${role eq 'Doctor' or 'Nurse' }">
+		<%@include file="/WEB-INF/jspf/doctorFunctions.jspf"%>
+		<%@include file="/WEB-INF/jspf/staffHeader.jspf"%>
+	</c:if>
 
 	<div class="patientInfo">
 		<ul>
-			<li>First name: ${patient.firstName }</li>
-			<li>Second name: ${patient.secondName }</li>
-			<li>Date of birth: ${patient.dateOfBirth }</li>
-			<li>Doctor: <a
+			<li><fmt:message key="table.name" />: ${patient.firstName }</li>
+			<li><fmt:message key="table.secondName" />:
+				${patient.secondName }</li>
+			<li><fmt:message key="table.dateOfBirth" />:
+				${patient.dateOfBirth }</li>
+			<li><fmt:message key="Doctor" />: <a
 				href="controller?command=doctor&id=${patient.doctor.docId }">${patient.doctor.secondName }
 					${patient.doctor.firstName } </a></li>
 		</ul>
@@ -50,10 +58,10 @@ html {
 	<div class="patientProcdures">
 		<table border="1">
 			<tr>
-				<td>Doctor</td>
-				<td>Type</td>
-				<td>Info</td>
-				<td>Is done</td>
+				<td><fmt:message key="Doctor" /></td>
+				<td><fmt:message key="table.type" /></td>
+				<td><fmt:message key="table.desc" /></td>
+				<td><fmt:message key="table.status" /></td>
 			</tr>
 			<patient:patientProcTable id="${patient.patientId }"></patient:patientProcTable>
 

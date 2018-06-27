@@ -34,8 +34,7 @@ public class PatientInfoTag extends SimpleTagSupport {
 		for (Procedure procedure : procedures) {
 			builder.append("<tr>");
 			builder.append("<td>");
-			builder.append("<a href = \"controller?command=doctor?id=" + procedure.getDoctor().getDocId() + "\">");
-			builder.append(procedure.getDoctor().getSecondName() + " " + procedure.getDoctor().getFirstName() + "</a>");
+			builder.append(procedure.getDoctor().getSecondName() + " " + procedure.getDoctor().getFirstName());
 			builder.append("</td>");
 			builder.append("<td>");
 			builder.append(procedure.getTreatmant().getName());

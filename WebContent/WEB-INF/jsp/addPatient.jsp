@@ -39,28 +39,38 @@ html {
 
 .errorMessage {
 	position: absolute;
-	margin-top: 200px;
+	margin-top: 150px;
+	margin-left: 400px;
+	width: 500px;
+	background-color: red;
+	text-align: center;
 }
 </style>
 <body>
+	<%@include file="/WEB-INF/jspf/changeLanguage.jspf"%>
+
 	<%@include file="/WEB-INF/jspf/adminHeader.jspf"%>
-	<c:if test="${emptyInput}">
-		<div class="errorMessage">хуйня</div>
+	<c:if test="${emptyFieldsP}">
+		<div class="errorMessage">
+			<fmt:message key="addStaff.error" />
+		</div>
 	</c:if>
-	<c:if test="${emptyRole}">
-		<div class="errorMessage">хуйня</div>
-	</c:if>
+
 	<div class="addPatientForm">
 		<form class="form" action="controller?command=addPatient"
 			method="POST">
 			<ul>
-				<li>First name: <input type="text" name="firstName"></li>
-				<li>Second name: <input type="text" name="secondName"></li>
-				<li>Date of birth: <input type="date" name="dateOfBirth"></li>
-				<li>Doctor: <select name="doctor">
+				<li><fmt:message key="table.name" /> <input type="text"
+					name="firstName"></li>
+				<li><fmt:message key="table.secondName" /> <input type="text"
+					name="secondName"></li>
+				<li><fmt:message key="table.dateOfBirth" /><input type="date"
+					name="dateOfBirth"></li>
+				<li><fmt:message key="Doctor" /> <select name="doctor">
 						<c:forEach items="${doctors }" var="doctor">
-							<option value="${doctor.docId }"><c:out
-									value="${doctor.firstName } ${doctor.secondName } (${doctor.specialization.name })"></c:out>
+							<option value="${doctor.docId }">${doctor.firstName }
+								${doctor.secondName } (
+								<fmt:message key="${doctor.specialization.name }" />)
 							</option>
 						</c:forEach>
 				</select></li>

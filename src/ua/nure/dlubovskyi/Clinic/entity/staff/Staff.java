@@ -6,7 +6,7 @@ import ua.nure.dlubovskyi.Clinic.entity.AbstractEntity;
  * Class container which impl staff entity
  * 
  * @see AbstractEntity
- * @author Zver
+ * @author Dlubovskyi Oleg
  *
  */
 public class Staff extends AbstractEntity {
@@ -15,6 +15,15 @@ public class Staff extends AbstractEntity {
 	private String login;
 	private String password;
 
+	/**
+	 * Default constr
+	 * 
+	 * @param firstName
+	 * @param secondName
+	 * @param role
+	 * @param login
+	 * @param password
+	 */
 	public Staff(String firstName, String secondName, String role, String login, String password) {
 		super(firstName, secondName);
 		this.role = role;
@@ -22,6 +31,15 @@ public class Staff extends AbstractEntity {
 		this.password = password;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 * @param secondName
+	 * @param id
+	 * @param role
+	 * @param login
+	 * @param password
+	 */
 	public Staff(String firstName, String secondName, int id, String role, String login, String password) {
 		super(firstName, secondName);
 		this.id = id;
@@ -30,6 +48,12 @@ public class Staff extends AbstractEntity {
 		this.password = password;
 	}
 
+	/**
+	 * 
+	 * @param firstName
+	 * @param secondName
+	 * @param role
+	 */
 	public Staff(String firstName, String secondName, String role) {
 		super(firstName, secondName);
 		this.role = role;

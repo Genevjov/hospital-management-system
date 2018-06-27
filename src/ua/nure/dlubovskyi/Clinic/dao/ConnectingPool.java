@@ -9,11 +9,17 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 
+ * @author Dlubovskyi Oleg
+ *
+ */
 public class ConnectingPool {
 	public final static Logger LOGGER = Logger.getLogger(ConnectingPool.class);
 	private static DataSource dataSource;
 
 	/**
+	 * Getting connection method
 	 * 
 	 * @return connection
 	 */
@@ -24,18 +30,17 @@ public class ConnectingPool {
 			dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/summary_task");
 
 		} catch (NamingException e) {
-			LOGGER.error("DataSource obtaining failed");
+			 LOGGER.error("DataSource obtaining failed");
 
 		}
-
 		try {
 			// obtin connection
-			LOGGER.debug("Getting connection by datasource");
+			 LOGGER.debug("Getting connection by datasource");
 			connection = dataSource.getConnection();
 		} catch (SQLException e) {
-			LOGGER.error("Connection to db failed");
+			 LOGGER.error("Connection to db failed");
 		}
-		LOGGER.debug("Connected!");
+		 LOGGER.debug("Connected!");
 		return connection;
 
 	}

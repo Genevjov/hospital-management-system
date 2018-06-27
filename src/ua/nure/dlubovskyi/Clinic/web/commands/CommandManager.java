@@ -2,9 +2,11 @@ package ua.nure.dlubovskyi.Clinic.web.commands;
 
 import java.util.HashMap;
 
-import ua.nure.dlubovskyi.Clinic.entity.managers.SortDoctorsCommand;
-import ua.nure.dlubovskyi.Clinic.web.commands.AbstractCommand;
-
+/**
+ * 
+ * @author Dlubovskyi Oleg
+ *
+ */
 public class CommandManager {
 
 	private static HashMap<String, AbstractCommand> commands = new HashMap<>();
@@ -13,15 +15,20 @@ public class CommandManager {
 	static {
 		commands.put("login", new LoginCommand()); // TODO add filters
 		commands.put("doctors", new DoctorListCommand());
-		commands.put("doctorsBySpec", new DoctorsListBySpecializationCommand());
-		commands.put("sortDoctors", new SortDoctorsCommand());
-		commands.put("nurses", new NurseseListCommand()); // min version done
-		commands.put("patients", new PatiensListCommand()); // TODO
+		commands.put("nurses", new NurseseListCommand());
+		commands.put("patients", new PatientsListCommand());
 		commands.put("addStaff", new AddStaffCommand());
-		commands.put("addPatient", new AddPatientCommand());
-		commands.put("logout", new LogOutCommand());
+		commands.put("addPatient",new AddPatientCommand());
 		commands.put("patientCard", new GetPatienMedicalCardCommand());
-
+		commands.put("doctor", new GetDoctorInfoCommand());
+		commands.put("changeLanguage", new ChangeLanguageCommand());
+		commands.put("doctorsPatients", new GetPatientsByDoctor());
+		commands.put("setProcedure", new SetProcedureToPatient());
+		commands.put("setDiagnosis", new SetDiagnosisToPatientCommand());
+		commands.put("nursePatients", new GetPatientsListForNurseCommand());
+		commands.put("carryOutProcedure", new CarryOutTheProcedure());
+		commands.put("discharge", new DischargePatientCommand());
+		commands.put("doctorsProcedures", new ProceduresForDoctor());
 	}
 
 	public AbstractCommand getCommand(String command) {

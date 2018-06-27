@@ -15,6 +15,7 @@ public class Patient extends AbstractEntity {
 	private String diagnosis;
 	// this atrib ONLY FOR ADDING NEW USER
 	private int doctorId;
+	private Procedure procedure;
 
 	/**
 	 * Default constuctor
@@ -102,6 +103,21 @@ public class Patient extends AbstractEntity {
 	 */
 	public void setDoctorId(int doctorId) {
 		this.doctorId = doctorId;
+	}
+
+	/**
+	 * @return the procedure
+	 */
+	public Procedure getProcedure() {
+		return procedure;
+	}
+
+	/**
+	 * @param procedure
+	 *            the procedure to set
+	 */
+	public void setProcedure(Procedure procedure) {
+		this.procedure = procedure;
 	}
 
 }

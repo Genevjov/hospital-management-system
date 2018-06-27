@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import ua.nure.dlubovskyi.Clinic.web.commands.CommandManager;
+
 /**
  * Application Lifecycle Listener implementation class ContextListener
  *
@@ -31,6 +33,7 @@ public class ContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		ServletContext servletContext = arg0.getServletContext();
 		initLogging(servletContext);
+		new CommandManager();
 	}
 
 	// init log4j

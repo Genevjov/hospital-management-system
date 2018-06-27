@@ -40,37 +40,51 @@ html {
 
 .errorMessage {
 	position: absolute;
+	margin-top: 150px;
+	margin-left: 400px;
+	width: 500px;
+	background-color: red;
+	text-align: center;
 }
 </style>
 <body>
+	<%@include file="/WEB-INF/jspf/changeLanguage.jspf"%>
+
 	<%@include file="/WEB-INF/jspf/adminHeader.jspf"%>
 	<c:if test="${emptyInput}">
-		<div class="errorMessage">хуйня</div>
-	</c:if>
-	<c:if test="${emptyRole}">
-		<div class="errorMessage">хуйня</div>
+		<div class="errorMessage">
+			<fmt:message key="addStaff.error" />
+		</div>
 	</c:if>
 	<div class="addStaffForm">
 		<form class="form" name="staffForm"
 			action="controller?command=addStaff" method="POST">
 			<ul>
-				<li>First name: <input type="text" name="firstName"></li>
-				<li>Second name: <input type="text" name="secondName"></li>
-				<li>Login: <input type="text" name="login"></li>
-				<li>Password: <input type="password" name="password"></li>
-				<li>Repeat password: <input type="password" name="rePassword"></li>
-				<li>Role: <select name="role" onchange="checkRole()"
-					id="roleSelect">
-						<option selected="selected">Admin</option>
-						<option>Doctor</option>
-						<option>Nurse</option>
+				<li><fmt:message key="table.name" /><input type="text"
+					name="firstName"></li>
+				<li><fmt:message key="table.secondName" /> <input type="text"
+					name="secondName"></li>
+				<li><fmt:message key="login.login" /> <input type="text"
+					name="login"></li>
+				<li><fmt:message key="login.password" /> <input
+					type="password" name="password"></li>
+				<li><fmt:message key="login.repeatPass" /> <input
+					type="password" name="rePassword"></li>
+				<li><fmt:message key="table.role" /><select name="role"
+					onchange="checkRole()" id="roleSelect">
+						<option selected="selected" value="Admin"><fmt:message
+								key="Admin" /></option>
+						<option value="Doctor"><fmt:message key="Doctor" /></option>
+						<option value="Nurse"><fmt:message key="Nurse" /></option>
 				</select></li>
-				<li id="docSpecialization">Sepcialization: <select name="spec">
+				<li id="docSpecialization"><fmt:message key="table.spec" />: <select
+					name="spec">
 						<c:forEach items="${specializations}" var="spec">
-							<option>${spec.name}</option>
+							<option value="${spec.name }"><fmt:message
+									key="${spec.name }" /></option>
 						</c:forEach>
 				</select></li>
-				<li><input type="submit" value="Add"></li>
+				<li><input type="submit" value="<fmt:message key="add" />"></li>
 			</ul>
 		</form>
 
@@ -82,7 +96,7 @@ html {
 	var docSpec = document.getElementById('docSpecialization')
 	var roleSelect = document.getElementById('roleSelect')
 	function checkRole() {
-		if (roleSelect.options[roleSelect.selectedIndex].text == 'Doctor') {
+		if (roleSelect.selectedIndex == 1) {
 			docSpec.style.visibility = 'visible'
 		} else {
 			docSpec.style.visibility = 'hidden'

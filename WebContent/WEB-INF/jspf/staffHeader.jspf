@@ -1,0 +1,70 @@
+<%@include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+<style>
+.staffHeader {
+	background-color: #068279;
+	position: absolute;
+	margin-top: -17px;
+	margin-left: -10px;
+	width: 1368px;
+	height: 100px;
+}
+
+.staffHeader li {
+	display: inline;
+}
+
+.staffHeader a {
+	margin-top: -16px;
+	color: #fff;
+	padding: 35px 10px;
+	text-decoration: none;
+	font-weight: bold;
+	display: inline-block;
+	width: 100px;
+	height: 30px;
+	color: #fff;
+	text-align: center;
+}
+
+.staffHeader a:hover {
+	background-color: gray;
+}
+
+.headerStaffInfor {
+	position: absolute;
+	margin-left: 970px;
+	margin-top: -95px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.headerStaffInfor li a {
+	position: absolute;
+	margin-top: -36px;
+}
+</style>
+<div class="staffHeader">
+	<ul>
+		<c:if test="${role eq 'Doctor' }">
+			<li><a href="controller?command=doctorsPatients&id=${staff.id }"><fmt:message
+						key="header.patients" /></a></li>
+			<li><a
+				href="controller?command=doctorsProcedures&id=${staff.id }"><fmt:message
+						key="header.proc" /></a></li>
+		</c:if>
+		<c:if test="${role eq 'Nurse' }">
+			<li><a href="controller?command=nursePatients"><fmt:message
+						key="header.patients" /></a></li>
+		</c:if>
+	</ul>
+	<div class="headerStaffInfor">
+		<ul>
+			<li>(<fmt:message key="${role }" />)
+			</li>
+			<li>${staff.secondName}${staff.firstName}</li>
+			<li><a href="controller?command=logout"><fmt:message
+						key="header.logout" /></a></li>
+		</ul>
+	</div>
+</div>

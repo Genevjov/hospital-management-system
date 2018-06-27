@@ -1,4 +1,4 @@
-package ua.nure.dlubovskyi.Clinic.dao.staff;
+package ua.nure.dlubovskyi.Clinic.entity.staff;
 
 /**
  *

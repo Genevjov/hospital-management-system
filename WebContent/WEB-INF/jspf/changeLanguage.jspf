@@ -1,0 +1,43 @@
+<style>
+.langMenu {
+	position: absolute;
+	margin-top: 70px;
+	margin-left: 1250px;
+	background-image: url("../res/images/english.png");
+}
+
+.langMenu ul li {
+	list-style: none;
+}
+
+.langMenu ul {
+	margin: 0;
+}
+
+.langMenu  li {
+	display: inline;
+	padding-left: 5px;
+}
+</style>
+<div class="langMenu">
+	<ul>
+		<li>
+			<form action="controller" method="post">
+				<input type="hidden" name="command" value="changeLanguage">
+				<input type="hidden" name="lang" value="ru"> <input
+					type="hidden" name=url
+					value="${requestScope['javax.servlet.forward.query_string']}">
+				<input type="image"
+					src="${pageContext.request.contextPath}/res/images/russian.png">
+			</form>
+		</li>
+		<li><form action="controller" method="post">
+				<input type="hidden" name="command" value="changeLanguage">
+				<input type="hidden" name="lang" value="en"> <input
+					type="hidden" name=url
+					value="${requestScope['javax.servlet.forward.query_string']}">
+				<input type="image"
+					src="${pageContext.request.contextPath}/res/images/english.png">
+			</form></li>
+	</ul>
+</div>

@@ -4,7 +4,6 @@
 <%@taglib prefix="custom" tagdir="/WEB-INF/tags"%>
 <html>
 <head>
-<link href="${Cotex }">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Doctors</title>
 </head>
@@ -36,23 +35,28 @@ html {
 	margin-top: 150px;
 }
 
-.doctorsTable td a{
+.doctorsTable td a {
 	text-decoration: none;
 	color: white;
+	padding-left: 5px;
+	]
 }
 </style>
 <body>
+	<%@include file="/WEB-INF/jspf/changeLanguage.jspf"%>
+
 	<%@include file="/WEB-INF/jspf/adminHeader.jspf"%>
 	<div class="specs">
 		<ul>
 			<c:forEach items="${specializations }" var="specialization">
 
 				<li><a
-					href="controller?command=doctors&spec=${specialization.id }">
-						${specialization.name} </a></li>
+					href="controller?command=doctors&spec=${specialization.id }"> <fmt:message
+							key="${specialization.name}" />
+				</a></li>
 			</c:forEach>
 
-			<li><a href="controller?command=doctors">All doctors</a></li>
+			<li><a href="controller?command=doctors"><fmt:message key="admin.allDoctors"/></a></li>
 
 		</ul>
 
@@ -61,14 +65,20 @@ html {
 	<div class="doctorsTable">
 		<table border="1">
 			<tr>
-				<td><a href="controller?command=doctors&sort=firstName">First
-						name</a></td>
-				<td><a href="controller?command=doctors&sort=secondName">Second
-						name</a></td>
-				<td><a href="controller?command=doctors&sort=login">Login</a></td>
-				<td><a href="controller?command=doctors&sort=spec">Specialization</a></td>
-				<td><a href="controller?command=doctors&sort=patients">Patients
-						count</a></td>
+				<td><fmt:message key="table.name" /><a
+					href="controller?command=doctors&spec=${specId }&sort=firstNameUp">+</a><a
+					href="controller?command=doctors&spec=${specId }&sort=firstNameDown">-</a></td>
+				<td><fmt:message key="table.secondName" /><a
+					href="controller?command=doctors&spec=${specId }&sort=secondNameUp">+</a><a
+					href="controller?command=doctors&spec=${specId }&sort=secondNameDown">-</a></td>
+				<td><fmt:message key="table.login" /><a
+					href="controller?command=doctors&spec=${specId }&sort=LoginUp">+</a><a
+					href="controller?command=doctors&spec=${specId }&sort=LoginDown">-</a></td>
+				<td><fmt:message key="table.spec" /></td>
+				<td><fmt:message key="table.patientsCount" /><a
+					href="controller?command=doctors&spec=${specId }&sort=patientsUp">+</a><a
+					href="controller?command=doctors&spec=${specId }&sort=patientsDown">-</a></td>
+				<td><fmt:message key="table.info" /></td>
 			</tr>
 			<c:forEach items="${doctors }" var="doctor">
 				<tr>

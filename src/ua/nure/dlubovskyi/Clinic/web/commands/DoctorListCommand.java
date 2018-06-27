@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.dlubovskyi.Clinic.constants.Urls;
-import ua.nure.dlubovskyi.Clinic.dao.staff.Specialization;
 import ua.nure.dlubovskyi.Clinic.entity.managers.DoctorManager;
 import ua.nure.dlubovskyi.Clinic.entity.staff.Doctor;
+import ua.nure.dlubovskyi.Clinic.entity.staff.Specialization;
 
 /**
  * Doctors list command realization
@@ -48,64 +48,71 @@ public class DoctorListCommand extends AbstractCommand {
 	private String doGet(HttpServletRequest request, HttpServletResponse response) {
 		// getting spec id if present
 		String stringSpecId = request.getParameter("spec");
+		String sortOption = request.getParameter("sort");
 		List<Doctor> doctors = null;
 		int specId = 0;
 		// validating
-		if (!Objects.isNull(stringSpecId) && !stringSpecId.isEmpty()) {
-			// if true getting doctors by spec
+		if (!Objects.isNull(stringSpecId)) {
+			// if true getting doctors by spec and sorting if param is present
 			specId = Integer.parseInt(stringSpecId);
-			doctors = DoctorManager.getDoctorsBySpecId(specId);
-			// else all doctors
+			if (specId > 0) {
+				if (!Objects.isNull(sortOption)) {
+					if (sortOption.equals("patientsUp") || sortOption.equals("patientsDown")) {
+						doctors = DoctorManager.getDoctorsBySpecId(specId);
+						sortByPatientsCount(doctors, sortOption);
+					} else {
+						doctors = DoctorManager.getDoctorsBySpcSorted(specId, sortOption);
+					}
+				} else {
+					doctors = DoctorManager.getDoctorsBySpecId(specId);
+				}
+			} else {
+				if (!Objects.isNull(sortOption)) {
+					if (sortOption.equals("patientsUp") || sortOption.equals("patientsDown")) {
+						doctors = DoctorManager.getAllDoctors();
+						sortByPatientsCount(doctors, sortOption);
+
+					} else {
+						doctors = DoctorManager.getAllDoctorsSorted(sortOption);
+					}
+				} else {
+					doctors = DoctorManager.getAllDoctors();
+				}
+			}
 		} else {
 			doctors = DoctorManager.getAllDoctors();
-
 		}
-		// getting doctors and specificationsF
+
+		// getting doctors and specialization
 		List<Specialization> specializations = DoctorManager.getAllSpecification();
 		// setting as attrib
+		request.getSession().setAttribute("specId", specId);
+
 		request.setAttribute("doctors", doctors);
 		request.setAttribute("specializations", specializations);
-		String sortOption = request.getParameter("sort");
-		// sorting if required
-		if (!Objects.isNull(sortOption) && !sortOption.isEmpty()) {
-			sorter(doctors, sortOption);
-		}
 		// setting as attrib
 		request.setAttribute("doctors", doctors);
 		request.setAttribute("specializations", specializations);
 		return Urls.PAGE_LIST_DOCTORS;
 	}
 
-	private void sorter(List<Doctor> doctors, String sortOption) {
-		switch (sortOption) {
-		case "firstName":
+	private void sortByPatientsCount(List<Doctor> doctors, String option) {
+		if (option.equals("patientsUp")) {
 			doctors.sort(new Comparator<Doctor>() {
+				@Override
 				public int compare(Doctor o1, Doctor o2) {
-					return o1.getFirstName().compareTo(o2.getFirstName());
-				};
+					return o2.getPatientCount() - o1.getPatientCount();
+				}
 			});
-			break;
-		case "secondName":
+
+		} else {
 			doctors.sort(new Comparator<Doctor>() {
+				@Override
 				public int compare(Doctor o1, Doctor o2) {
-					return o1.getSecondName().compareTo(o2.getSecondName());
-				};
+					return o1.getPatientCount() - o2.getPatientCount();
+				}
 			});
-			break;
-		case "login":
-			doctors.sort(new Comparator<Doctor>() {
-				public int compare(Doctor o1, Doctor o2) {
-					return o1.getLogin().compareTo(o2.getLogin());
-				};
-			});
-			break;
-		case "specialization":
-			doctors.sort(new Comparator<Doctor>() {
-				public int compare(Doctor o1, Doctor o2) {
-					return o1.getSpecialization().getName().compareTo(o2.getSpecialization().getName());
-				};
-			});
-			break;
 		}
 	}
+
 }

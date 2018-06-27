@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>Clinic</display-name>
@@ -40,11 +41,35 @@
 		<url-pattern>/*</url-pattern>
 		<servlet-name>FrontController</servlet-name>
 	</filter-mapping>
+	<filter>
+		<filter-name>AccessFilter</filter-name>
+		<filter-class>ua.nure.dlubovskyi.Clinic.web.filters.AccessFilter</filter-class>
+		<init-param>
+			<param-name>admin</param-name>
+			<param-value>doctors nurses patients addPatient addStaff patientCard doctor discharge</param-value>
+		</init-param>
+		<init-param>
+			<param-name>doctor</param-name>
+			<param-value>doctorsPatients setProcedure setDiagnosis carryOutProcedure discharge 
+			doctorsProcedures patientCard</param-value>
+		</init-param>
+		<init-param>
+			<param-name>nurse</param-name>
+			<param-value>carryOutProcedure nursePatients</param-value>
+		</init-param>
+		<init-param>
+			<param-name>freeZone</param-name>
+			<param-value>login changeLanguage logout</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessFilter</filter-name>
+		<servlet-name>MainController</servlet-name>
+	</filter-mapping>
 	<jsp-config>
 		<taglib>
 			<taglib-uri>/WEB-INF/patientInfo</taglib-uri>
 			<taglib-location>/WEB-INF/patientInfo.tld</taglib-location>
 		</taglib>
 	</jsp-config>
-
 </web-app>

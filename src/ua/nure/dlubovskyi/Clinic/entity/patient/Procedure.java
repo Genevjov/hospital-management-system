@@ -9,6 +9,7 @@ import ua.nure.dlubovskyi.Clinic.entity.staff.Doctor;
  *
  */
 public class Procedure {
+	private int id;
 	private Doctor doctor;
 	private String info;
 	private Treatmant treatmant;
@@ -21,7 +22,8 @@ public class Procedure {
 	 * @param info
 	 * @param treatmant
 	 */
-	public Procedure(Doctor doctor, String info, Treatmant treatmant, int status) {
+	public Procedure(int id, Doctor doctor, String info, Treatmant treatmant, int status) {
+		this.id = id;
 		this.doctor = doctor;
 		this.info = info;
 		this.treatmant = treatmant;
@@ -91,5 +93,20 @@ public class Procedure {
 	 */
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 }

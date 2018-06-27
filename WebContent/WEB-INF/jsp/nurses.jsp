@@ -16,16 +16,30 @@ html {
 	position: absolute;
 	margin-top: 150px;
 }
+
+.nursesTable table a {
+	padding-left: 5px;
+	text-decoration: none;
+	color: white;
+}
 </style>
 </head>
 <body>
+	<%@include file="/WEB-INF/jspf/changeLanguage.jspf"%>
+
 	<%@include file="/WEB-INF/jspf/adminHeader.jspf"%>
 	<div class="nursesTable">
 		<table border="1">
 			<tr>
-				<td>First name</td>
-				<td>Second name</td>
-				<td>Login</td>
+				<td><fmt:message key="table.name" /><a
+					href="controller?command=nurses&sort=firstNameUp">+</a> <a
+					href="controller?command=nurses&sort=firstNameDown">-</a></td>
+				<td><fmt:message key="table.secondName" /><a
+					href="controller?command=nurses&sort=secondNameUp">+</a> <a
+					href="controller?command=nurses&sort=secondNameDown">-</a></td>
+				<td><fmt:message key="table.login" /><a
+					href="controller?command=nurses&sort=loginUp">+</a> <a
+					href="controller?command=nurses&sort=loginDown">-</a></td>
 			</tr>
 			<c:forEach items="${nurses }" var="nurse">
 				<tr>

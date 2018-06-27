@@ -56,6 +56,7 @@ public class MainControllerServlet extends HttpServlet {
 		CommandManager manager = new CommandManager();
 		String commandName = request.getParameter("command");
 		if (!Objects.isNull(commandName)) {
+
 			AbstractCommand command = manager.getCommand(commandName);
 			if (!Objects.isNull(command)) {
 				String path = command.executeCommand(request, response, method);
@@ -65,15 +66,20 @@ public class MainControllerServlet extends HttpServlet {
 						response.sendRedirect(path);
 						LOGGER.debug("Controller has finished command executing");
 					} else if (method.equals("GET")) {
+
 						LOGGER.trace("Forward to: " + path);
 						request.getRequestDispatcher(path).forward(request, response);
 						LOGGER.debug("Controller has finished command executing");
 					}
 				}
 			} else {
-				LOGGER.trace("Got bad command");
-				request.getRequestDispatcher(Urls.PAGE_BAD_COMMAND).forward(request, response);
-
+				if (commandName.equals("logout")) {
+					request.getSession().invalidate();
+					response.sendRedirect(Urls.REDIRECT_LOGIN_PAGE);
+				} else {
+					LOGGER.trace("Got bad command");
+					request.getRequestDispatcher(Urls.PAGE_BAD_COMMAND).forward(request, response);
+				}
 			}
 		}
 

@@ -7,4 +7,6 @@
 <td>${doctor.firstName}</td>
 <td>${doctor.secondName}</td>
 <td>${doctor.login}</td>
-<td>${doctor.specialization.name}</td>
+<td><fmt:message key="${doctor.specialization.name}" /></td>
+<td>${doctor.patientCount }</td>
+<td><a href="controller?command=doctor&id=${doctor.docId }">Info</a></td>

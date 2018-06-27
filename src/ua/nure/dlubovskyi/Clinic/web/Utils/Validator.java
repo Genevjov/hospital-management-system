@@ -32,13 +32,4 @@ public class Validator {
 		return email.matches(REGEXP_EMAIL_INPUT);
 	}
 
-	/**
-	 * 
-	 * @param login
-	 * @return
-	 */
-	public static boolean isValidLogin(String login) {
-		// TODO
-		return false;
-	}
 }

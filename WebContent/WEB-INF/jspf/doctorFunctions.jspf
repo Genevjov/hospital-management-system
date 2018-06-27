@@ -1,0 +1,117 @@
+<%@include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+<style>
+#setProcedureForm {
+	position: absolute;
+	margin-top: 265px;
+	margin-left: 350px;
+	visibility: hidden;
+}
+
+#setProcedureForm ul li {
+	list-style: none;
+}
+
+#setDiagnosisForm {
+	position: absolute;
+	margin-top: 286px;
+	margin-left: 350px;
+	visibility: hidden;
+	margin-left: 350px;
+}
+
+#setDiagnosisForm ul li {
+	list-style: none;
+}
+
+.docFunc {
+	position: absolute;
+	margin-top: 100px;
+	margin-left: 350px;
+}
+
+.docFunc  li {
+	list-style: none;
+	padding-top: 20px;
+}
+
+.docFunc li a {
+	text-decoration: none;
+	color: white;
+}
+</style>
+<div class="docFunc">
+	<ul>
+		<li><form action="controller?command=discharge" method="post">
+				<input type="hidden" name="patient" value="${patient.patientId }">
+				<input type="submit" value="<fmt:message key="table.discharge" />">
+			</form></li>
+		<li><button onclick="showSetDiagnosisForm();">
+				<fmt:message key="doctor.appointDiagnosisButton" />
+			</button></li>
+		<li><button onclick="showSetProcedureForm()">
+				<fmt:message key="doctor.setProcedureButton" />
+			</button>
+	</ul>
+</div>
+
+<div id="setProcedureForm">
+	<form action="controller?command=setProcedure" method="post">
+		<ul>
+			<li><label><fmt:message key="table.type" />:</label><select
+				name=procedure>
+					<c:forEach items="${treatments}" var="treat">
+						<option value="${treat.id}"><fmt:message
+								key="${treat.name }" /></option>
+					</c:forEach>
+
+			</select></li>
+			<li><input type="hidden" name="patient"
+				value="${patient.patientId }"></li>
+			<li><input type="hidden" name="doctor" value="${staff.id }"></li>
+			<li><label><fmt:message key="table.desc" />:</label></li>
+			<li><textarea rows="" cols="30" name="info"></textarea></li>
+			<li><input type="submit"
+				value="<fmt:message key="doctor.setProcedureButton" />"></li>
+		</ul>
+	</form>
+</div>
+
+<div id="setDiagnosisForm">
+	<form action="controller?command=setDiagnosis" method="post">
+		<ul>
+			<li><input type="hidden" name="patient"
+				value="${patient.patientId }"></li>
+			<li><input type="hidden" name="doctor" value="${staff.id }"></li>
+			<li><label><fmt:message key="table.diagnosis" />:</label></li>
+			<li><textarea rows="" cols="30" name="info"></textarea></li>
+			<li><input type="submit"
+				value="<fmt:message key="doctor.appointDiagnosis"/>"></li>
+		</ul>
+	</form>
+
+</div>
+
+<script type="text/javascript">
+	var setDiagnosis = document.getElementById('setDiagnosisForm');
+	var setProcedure = document.getElementById('setProcedureForm');
+	setProcedure.style.visibility = 'hidden';
+	setDiagnosis.style.visibility = 'hidden';
+
+	function showSetDiagnosisForm() {
+		if (setDiagnosis.style.visibility == 'hidden') {
+			setProcedure.style.visibility = 'hidden';
+			setDiagnosis.style.visibility = 'visible';
+		} else {
+			setDiagnosis.style.visibility = 'hidden';
+		}
+	}
+	function showSetProcedureForm() {
+		if (setProcedure.style.visibility == 'hidden') {
+			setDiagnosis.style.visibility = 'hidden';
+			setProcedure.style.visibility = 'visible';
+		} else {
+			setProcedure.style.visibility = 'hidden';
+		}
+	}
+</script>

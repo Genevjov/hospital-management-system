@@ -4,26 +4,27 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ua.nure.dlubovskyi.Clinic.constants.Urls;
-
-public class LogOutCommand extends AbstractCommand {
+import ua.nure.dlubovskyi.Clinic.entity.managers.DoctorManager;
+public class ProceduresForDoctor extends AbstractCommand {
 	@Override
 	public String executeCommand(HttpServletRequest request, HttpServletResponse response, String method)
 			throws IOException {
-		String path = null;
 		if (method.equals("GET")) {
-			path = doGet(request);
+			return doGet(request);
 		}
-		return path;
+		return null;
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return path
+	 */
 	private String doGet(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		return Urls.PAGE_LOGIN;
+		request.getSession().setAttribute("patients", DoctorManager
+				.getProcForDoctor(DoctorManager.getDoctorIdByStaffId(Integer.parseInt(request.getParameter("id")))));
+		return Urls.PAGE_DOCTOR_PROC;
 	}
 }

@@ -8,14 +8,16 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.dlubovskyi.Clinic.constants.Urls;
 import ua.nure.dlubovskyi.Clinic.dao.staff.DoctorDao;
-import ua.nure.dlubovskyi.Clinic.dao.staff.Specialization;
 import ua.nure.dlubovskyi.Clinic.dao.staff.StaffDao;
 import ua.nure.dlubovskyi.Clinic.entity.managers.DoctorManager;
 import ua.nure.dlubovskyi.Clinic.entity.managers.NurseManager;
 import ua.nure.dlubovskyi.Clinic.entity.managers.StaffManager;
 import ua.nure.dlubovskyi.Clinic.entity.staff.Doctor;
+import ua.nure.dlubovskyi.Clinic.entity.staff.Specialization;
 import ua.nure.dlubovskyi.Clinic.entity.staff.Staff;
 import ua.nure.dlubovskyi.Clinic.web.Utils.Validator;
 
@@ -27,10 +29,12 @@ import ua.nure.dlubovskyi.Clinic.web.Utils.Validator;
 public class AddStaffCommand extends AbstractCommand {
 	private final List<String> roles = Arrays.asList(new String[] { "Admin", "Doctor", "Nurse" });
 	private final List<Specialization> specs = DoctorManager.getAllSpecification();
+	private final Logger LOGGER = Logger.getLogger(AddStaffCommand.class);
 
 	@Override
 	public String executeCommand(HttpServletRequest request, HttpServletResponse response, String method)
 			throws IOException {
+		LOGGER.debug("Executing add staff command. Method " + method);
 		String path = null;
 		if (method.equals("POST")) {
 			path = doPost(request, response);
@@ -39,6 +43,8 @@ public class AddStaffCommand extends AbstractCommand {
 
 			path = Urls.PAGE_ADD_STAFF;
 		}
+		LOGGER.debug("Add staff command has been executed");
+
 		return path;
 	}
 
@@ -53,7 +59,9 @@ public class AddStaffCommand extends AbstractCommand {
 		String path = null;
 		String roleParam = request.getParameter("role");
 		if (Objects.isNull(roleParam) || !roles.contains(roleParam)) {
-			request.getSession().setAttribute("emptyRole", true);
+			request.getSession().setAttribute("emptyInput", true);
+
+			return Urls.REDIRECT_ADD_STAFF_PAGE;
 		} else {
 			switch (roleParam) {
 			case "Admin":
@@ -105,6 +113,8 @@ public class AddStaffCommand extends AbstractCommand {
 				Doctor doctor = new Doctor(firstName, secondName, login, password, specialization);
 				// call manager-class for adding to db
 				DoctorManager.addDoctor(doctor);
+				request.getSession().removeAttribute("emptyInput");
+
 				path = Urls.REDIRECT_DOCTORS_LIST;
 
 			} else {
@@ -145,8 +155,11 @@ public class AddStaffCommand extends AbstractCommand {
 				staff.setLogin(login);
 				staff.setPassword(password);
 				NurseManager.addNewNurse(staff);
+				request.getSession().removeAttribute("emptyInput");
+
 				path = Urls.REDIRECT_NURSES_LIST;
 			} else {
+				request.getSession().setAttribute("emptyInput", true);
 				path = Urls.REDIRECT_ADD_STAFF_PAGE;
 			}
 		}
@@ -181,8 +194,11 @@ public class AddStaffCommand extends AbstractCommand {
 				staff.setLogin(login);
 				staff.setPassword(password);
 				StaffManager.addNewAdmin(staff);
+				request.getSession().removeAttribute("emptyInput");
 				path = Urls.REDIRECT_DOCTORS_LIST;
 			} else {
+				request.getSession().setAttribute("emptyInput", true);
+
 				path = Urls.REDIRECT_ADD_STAFF_PAGE;
 
 			}
@@ -198,12 +214,4 @@ public class AddStaffCommand extends AbstractCommand {
 	private boolean isValidInp(String string) {
 		return Validator.validateInput(string);
 	}
-
-	// private boolean isLoginValid(String login) {
-	// return isValidInp(login) && Validator.isValidLogin(login);
-	// }
-
-	// private boolean isValidEmail(String string) {
-	// return Validator.validateInput(string);
-	// }
 }

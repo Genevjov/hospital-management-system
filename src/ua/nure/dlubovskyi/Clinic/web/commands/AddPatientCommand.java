@@ -6,6 +6,8 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.dlubovskyi.Clinic.constants.Urls;
 import ua.nure.dlubovskyi.Clinic.entity.managers.DoctorManager;
 import ua.nure.dlubovskyi.Clinic.entity.managers.PatientManager;
@@ -18,9 +20,12 @@ import ua.nure.dlubovskyi.Clinic.web.Utils.Validator;
  *
  */
 public class AddPatientCommand extends AbstractCommand {
+	private final Logger LOGGER = Logger.getLogger(AddPatientCommand.class);
+
 	@Override
 	public String executeCommand(HttpServletRequest request, HttpServletResponse response, String method)
 			throws IOException {
+		LOGGER.info("Executing add patient command");
 		String path = null;
 		if (method.equals("GET")) {
 			request.setAttribute("doctors", DoctorManager.getAllDoctors());
@@ -29,6 +34,7 @@ public class AddPatientCommand extends AbstractCommand {
 			path = doPost(request);
 
 		}
+		LOGGER.info("Add patient commanad has been executed.");
 		return path;
 	}
 
@@ -49,34 +55,26 @@ public class AddPatientCommand extends AbstractCommand {
 				&& !Objects.isNull(stringDocId)) {
 			int docId = Integer.parseInt(stringDocId);
 			// validation for correct input
-			if (isValid(firstName) && isValid(secondName) && !dateOfBirth.isEmpty()) {
+			if (Validator.validateInput(firstName) && Validator.validateInput(secondName) && !dateOfBirth.isEmpty()) {
 				// removing atribute if present
-				request.getSession().removeAttribute("emptyFields");
 				// filling patient entity
 				Patient patient = new Patient(firstName, secondName, docId);
 				patient.setDateOfBirth(dateOfBirth);
 				// adding to database
 				PatientManager.addPatient(patient);
+				request.getSession().removeAttribute("emptyFieldsP");
+				patient.setDoctorId(docId);
 				path = Urls.REDIRECT_PATIENTS_LIST;
 				// setting error status
 			} else {
 
-				request.getSession().setAttribute("emptyFields", true);
+				request.getSession().setAttribute("emptyFieldsP", true);
 				path = Urls.REDIRECT_ADD_PATINET;
 			}
 		} else {
-			request.getSession().setAttribute("emptyFields", true);
+			request.getSession().setAttribute("emptyFieldsP", true);
 			path = Urls.REDIRECT_ADD_PATINET;
 		}
 		return path;
-	}
-
-	/**
-	 * 
-	 * @return path to forward
-	 */
-
-	private boolean isValid(String input) {
-		return Validator.validateInput(input);
 	}
 }

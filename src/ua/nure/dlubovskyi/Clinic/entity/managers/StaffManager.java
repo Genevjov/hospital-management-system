@@ -20,4 +20,12 @@ public class StaffManager {
 		StaffDao.addNewAdmin(staff);
 	}
 
+	public static void setLoginData(Staff staff, int id) {
+		StaffDao.setLoginDataByStaffId(staff, id);
+	}
+
+	public static void carryOutProcedure(int id) {
+		StaffDao.carryOutProc(id);
+	}
+
 }

@@ -4,7 +4,7 @@ package ua.nure.dlubovskyi.Clinic.entity.patient;
  * Treatmant entity
  * 
  * @see Procedure
- * @author DLubovskyi Oleg
+ * @author Dlubovskyi Oleg
  *
  */
 public class Treatmant {

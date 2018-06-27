@@ -10,7 +10,11 @@ import org.apache.log4j.Logger;
 import ua.nure.dlubovskyi.Clinic.constants.Query;
 import ua.nure.dlubovskyi.Clinic.dao.ConnectingPool;
 import ua.nure.dlubovskyi.Clinic.entity.staff.Staff;
-
+/**
+ * 
+ * @author Dlubovskyi Oleg
+ *
+ */
 public class StaffDao {
 	public final static Logger LOGGER = Logger.getLogger(StaffDao.class);
 	private static Connection connection;
@@ -39,7 +43,8 @@ public class StaffDao {
 	 */
 	public static Staff getStaffByLogin(String login) {
 		Staff staff = null;
-		try (Connection connection = ConnectingPool.getConnection()) {
+		connection = ConnectingPool.getConnection();
+		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(Query.SQL_GET_STAFF_BY_LOGIN);
 			preparedStatement.setString(1, login);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -48,12 +53,21 @@ public class StaffDao {
 						resultSet.getInt("staff_id"), resultSet.getString("role_name"), login,
 						resultSet.getString("password"));
 			}
+			preparedStatement.close();
+			resultSet.close();
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
+		} finally {
+			closeConnection(connection);
 		}
 		return staff;
 	}
 
+	/**
+	 * Adding new admin user to database
+	 * 
+	 * @param admin
+	 */
 	public static void addNewAdmin(Staff admin) {
 		connection = ConnectingPool.getConnection();
 		try {
@@ -79,10 +93,54 @@ public class StaffDao {
 			ps.executeUpdate();
 			resultSet.close();
 			ps.close();
-			closeConnection(connection);
 		} catch (SQLException e) {
 			LOGGER.error("Failed to add new admin.");
+		} finally {
+			closeConnection(connection);
+
 		}
 	}
 
+	/**
+	 * Method for setting login data to staff
+	 * 
+	 * @see Staff
+	 * @param id
+	 */
+	public static void setLoginDataByStaffId(Staff staff, int id) {
+		LOGGER.debug("Getting staf login data for id: " + id);
+		connection = ConnectingPool.getConnection();
+		try (PreparedStatement preparedStatement = connection.prepareStatement(Query.SQL_GET_LOGIN_DATA_BY_ID)) {
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				staff.setLogin(resultSet.getString("login"));
+				staff.setPassword(resultSet.getString("password"));
+			}
+			resultSet.close();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage());
+		} finally {
+			closeConnection(connection);
+		}
+	}
+
+	/**
+	 * Method sets 1 (true) to procedure is done status
+	 * 
+	 * @param procId
+	 */
+	public static void carryOutProc(int procId) {
+		LOGGER.debug("Procedure: " + procId + " has been executed");
+		connection = ConnectingPool.getConnection();
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(Query.SQL_CARRY_OUT_PROC);
+			preparedStatement.setInt(1, procId);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error(e.getMessage());
+		} finally {
+			closeConnection(connection);
+		}
+	}
 }
