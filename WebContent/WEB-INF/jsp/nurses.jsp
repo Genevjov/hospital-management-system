@@ -40,6 +40,7 @@ html {
 				<td><fmt:message key="table.login" /><a
 					href="controller?command=nurses&sort=loginUp">+</a> <a
 					href="controller?command=nurses&sort=loginDown">-</a></td>
+				<td>Count of procedures</td>
 			</tr>
 			<c:forEach items="${nurses }" var="nurse">
 				<tr>

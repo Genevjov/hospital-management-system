@@ -22,6 +22,7 @@ public class ConnectingPool {
 	 * Getting connection method
 	 * 
 	 * @return connection
+	 * 
 	 */
 	public static synchronized Connection getConnection() {
 		Connection connection = null;
@@ -31,7 +32,6 @@ public class ConnectingPool {
 
 		} catch (NamingException e) {
 			 LOGGER.error("DataSource obtaining failed");
-
 		}
 		try {
 			// obtin connection

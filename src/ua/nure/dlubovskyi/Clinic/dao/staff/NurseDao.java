@@ -43,7 +43,9 @@ public class NurseDao {
 			while (resultSet.next()) {
 				Nurse nurse = new Nurse(resultSet.getString("first_Name"), resultSet.getString("second_name"),
 						resultSet.getString("login"));
+				nurse.setId(resultSet.getInt("staff_id"));
 				StaffDao.setLoginDataByStaffId(nurse, resultSet.getInt("staff_id"));
+				nurse.setExecutedProc(getProcCountForNurse(nurse.getId()));
 				nurses.add(nurse);
 			}
 			LOGGER.debug("Found: " + nurses.size() + " nurses");
@@ -186,6 +188,31 @@ public class NurseDao {
 			closeConnection(connection);
 		}
 		return patients;
+
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private static int getProcCountForNurse(int id) {
+		connection = ConnectingPool.getConnection();
+		int count = 0;
+
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(Query.SQL_GET_DONE_PROC_COUNT);
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				count = resultSet.getInt("count");
+			}
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		} finally {
+			closeConnection(connection);
+		}
+		return count;
 	}
 
 }

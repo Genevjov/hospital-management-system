@@ -24,8 +24,8 @@ public class StaffManager {
 		StaffDao.setLoginDataByStaffId(staff, id);
 	}
 
-	public static void carryOutProcedure(int id) {
-		StaffDao.carryOutProc(id);
+	public static void carryOutProcedure(int id, int staff_id) {
+		StaffDao.carryOutProc(id, staff_id);
 	}
 
 }

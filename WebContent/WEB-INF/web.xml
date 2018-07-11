@@ -46,16 +46,16 @@
 		<filter-class>ua.nure.dlubovskyi.Clinic.web.filters.AccessFilter</filter-class>
 		<init-param>
 			<param-name>admin</param-name>
-			<param-value>doctors nurses patients addPatient addStaff patientCard doctor discharge</param-value>
+			<param-value>doctors nurses changeLanguage patients addPatient addStaff patientCard doctor discharge</param-value>
 		</init-param>
 		<init-param>
 			<param-name>doctor</param-name>
-			<param-value>doctorsPatients setProcedure setDiagnosis carryOutProcedure discharge 
+			<param-value>doctorsPatients changeLanguage setProcedure setDiagnosis carryOutProcedure discharge 
 			doctorsProcedures patientCard</param-value>
 		</init-param>
 		<init-param>
 			<param-name>nurse</param-name>
-			<param-value>carryOutProcedure nursePatients</param-value>
+			<param-value>carryOutProcedure changeLanguage nursePatients</param-value>
 		</init-param>
 		<init-param>
 			<param-name>freeZone</param-name>

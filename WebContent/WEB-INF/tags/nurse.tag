@@ -9,3 +9,4 @@
 <td>${nurse.firstName }</td>
 <td>${nurse.secondName }</td>
 <td>${nurse.login }</td>
+<td>${nurse.executedProc }</td>

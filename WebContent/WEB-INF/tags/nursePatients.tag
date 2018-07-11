@@ -16,6 +16,9 @@
 			<c:if test="${role eq 'Doctor' }">
 				<input type="hidden" name="doctor" value="${staff.id}">
 			</c:if>
+			<c:if test="${role eq 'Nurse' }">
+				<input type="hidden" name="nurse" value="${staff.id}">
+			</c:if>
 			<input type="submit" value="<fmt:message key="carryOut" />">
 		</form></td>
 

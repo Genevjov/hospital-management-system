@@ -42,11 +42,14 @@ public class CarryOutTheProcedure extends AbstractCommand {
 		int procId = Integer.parseInt(request.getParameter("proc"));
 
 		String doctor = request.getParameter("doctor");
-		StaffManager.carryOutProcedure(procId);
+		String nurse = request.getParameter("nurse");
 		if (!Objects.isNull(doctor)) {
+			StaffManager.carryOutProcedure(procId, Integer.parseInt(doctor));
 			return Urls.REDIRECT_PATIENTS_BY_DOC_ID + doctor;
-		} else {
+		} else if (!Objects.isNull(nurse)) {
+			StaffManager.carryOutProcedure(procId, Integer.parseInt(nurse));
 			return Urls.REDIRECT_TO_NURSE_PATIENTS;
 		}
+		return null;
 	}
 }

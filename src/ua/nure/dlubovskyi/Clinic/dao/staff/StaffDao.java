@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import ua.nure.dlubovskyi.Clinic.constants.Query;
 import ua.nure.dlubovskyi.Clinic.dao.ConnectingPool;
 import ua.nure.dlubovskyi.Clinic.entity.staff.Staff;
+
 /**
  * 
  * @author Dlubovskyi Oleg
@@ -130,12 +131,13 @@ public class StaffDao {
 	 * 
 	 * @param procId
 	 */
-	public static void carryOutProc(int procId) {
+	public static void carryOutProc(int procId, int staffId) {
 		LOGGER.debug("Procedure: " + procId + " has been executed");
 		connection = ConnectingPool.getConnection();
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(Query.SQL_CARRY_OUT_PROC);
-			preparedStatement.setInt(1, procId);
+			preparedStatement.setInt(1, staffId);
+			preparedStatement.setInt(2, procId);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());

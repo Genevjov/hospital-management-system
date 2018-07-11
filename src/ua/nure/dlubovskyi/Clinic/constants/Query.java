@@ -4,7 +4,7 @@ public class Query {
 
 	// staff
 
-	public static final String SQL_CARRY_OUT_PROC = "UPDATE procedures SET is_done = 1 WHERE procedure_id = ?";
+	public static final String SQL_CARRY_OUT_PROC = "UPDATE procedures SET is_done = 1, proc_executor = ?  Where procedure_id = ?";
 
 	public static final String SQL_GET_ALL_TREATMENTS = "SELECT * FROM summary_task.treatmant";
 
@@ -200,15 +200,19 @@ public class Query {
 	public static final String SQL_SET_DOCTOR_TO_PATIENT = "INSERT INTO patients_info(patient_id, doctor_id) VALUES(?,?)";
 
 	public static final String SQL_GET_PATIENTS_FOR_NURSE = "select * from patients inner join patients_info on patients.patient_id = patients_info.patient_id\r\n"
-			+ "inner join procedures on procedures.patient_id = patients.patient_id \r\n"
-			+ "inner join diagnosis on patients_info.diagnosis_id = diagnosis.diagnosis_id\r\n"
-			+ "inner join treatmant on treatmant.treatment_id = procedures.treatment_id\r\n"
-			+ "where procedures.is_done = 0 and treatment_name != 'Operation'";
+			+ "			inner join procedures on procedures.patient_id = patients.patient_id\r\n"
+			+ "            Left join diagnosis on patients_info.diagnosis_id = diagnosis.diagnosis_id\r\n"
+			+ "			inner join treatmant on treatmant.treatment_id = procedures.treatment_id\r\n"
+			+ "			where procedures.is_done = 0 and treatmant.treatment_id != 3";
 
 	public static final String SQL_GET_PROCEDURES_BY_PATIENT_ID = "SELECT * FROM procedures WHERE procedures.patient_id = ?";
 
 	public static final String SQL_DELETE_PATIENT_INFO = "DELETE  FROM patient_info WHERE patient_id= ?";
+
 	public static final String SQL_DELETE_PATIENT = "DELETE  FROM patients WHERE patient_id= ?";
+
 	public static final String SQL_DELETE_PROC = "DELETE  FROM procedures WHERE patient_id= ?";
+
+	public static final String SQL_GET_DONE_PROC_COUNT = "select count(*) as count from procedures where proc_executor =?";
 
 }
